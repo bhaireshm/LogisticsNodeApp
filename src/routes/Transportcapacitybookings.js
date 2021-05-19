@@ -45,7 +45,7 @@ router.get("/", verify, async (req, res) => {
 });
 
 router.get("/filter", verify, async (req, res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   try {
     const startDate =
       req.query.fromdate != "" ? new Date(Number(req.query.fromdate)) : false;
@@ -54,7 +54,7 @@ router.get("/filter", verify, async (req, res) => {
     const bookingId = req.query.bookingid ? req.query.bookingid : false;
     let transportcapacitybookings;
 
-    console.log(startDate, endDate);
+    // console.log(startDate, endDate);
 
     if (bookingId && !startDate && !endDate) {
       transportcapacitybookings = await Transportcapacitybooking.findOne({
@@ -65,19 +65,22 @@ router.get("/filter", verify, async (req, res) => {
         )
         .populate("transportCapacityBookingSpaceRequirements.Packagetotaltypes")
         .populate("plannedPickUp.Logisticlocation")
-        // .populate("plannedPickUp.Logisticlocation.contact") // add in exec method
         .populate("plannedPickUp.LogisticEventPeriod")
         .populate("plannedDropOff.Logisticlocation")
-        // .populate("plannedDropOff.Logisticlocation.contact")
         .populate("plannedDropOff.LogisticEventPeriod")
         .exec(async (e, r) => {
           if (e) return res.status(400).send(e);
-          // console.log(r);
-          // const contact = await Contacttype.findById(
-          //   r.plannedPickUp.Logisticlocation.contact
-          // );
-          // console.log(contact);
-          // r.plannedPickUp.Logisticlocation.contact = contact;
+
+          const plannedPickUpContact = await Contacttype.findById(
+            r.plannedPickUp.Logisticlocation.contact
+          );
+          r.plannedPickUp.Logisticlocation.contact = plannedPickUpContact;
+
+          const plannedDropOffContact = await Contacttype.findById(
+            r.plannedDropOff.Logisticlocation.contact
+          );
+          r.plannedDropOff.Logisticlocation.contact = plannedDropOffContact;
+
           const data = [];
           data.push(r);
           res.send(data);
@@ -297,11 +300,11 @@ router.post("/", verify, async (req, res) => {
     //   SpaceRequirements.packageTypeCode
     // );
 
-    const plannedPickUplogisticlocationtypes = await saveLogisticlocationtype(
+    const savedPlannedPickUplogisticlocationtypes = await saveLogisticlocationtype(
       PickUpLocationData,
       res
     );
-    const savedPlannedPickUplogisticlocationtypes = await plannedPickUplogisticlocationtypes.save();
+    // const savedPlannedPickUplogisticlocationtypes = await plannedPickUplogisticlocationtypes.save();
     // Logisticlocationtype.findById(
     //   PickUpLocationData.AdditionalLocationIdentification
     // );
@@ -326,11 +329,11 @@ router.post("/", verify, async (req, res) => {
     //   PickUpTime.plannedPickUpLogisticEventPeriodId
     // );
 
-    const plannedDropOfflogisticlocationtypes = await saveLogisticlocationtype(
+    const savedPlannedDropOfflogisticlocationtypes = await saveLogisticlocationtype(
       DropOffLocation,
       res
     );
-    const savedPlannedDropOfflogisticlocationtypes = await plannedDropOfflogisticlocationtypes.save();
+    // const savedPlannedDropOfflogisticlocationtypes = await plannedDropOfflogisticlocationtypes.save();
 
     // const plannedDropOfflogisticlocationtypes = await Logisticlocationtype.findById(
     //   DropOffLocation.plannedDropOffLogisticLocationTypeId
@@ -399,6 +402,7 @@ router.post("/", verify, async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
     res.status(200).json(savedTransportcapacitybooking);
   } catch (ex) {
     await session.abortTransaction();
@@ -418,119 +422,131 @@ router.delete("/:id", verify, async (req, res) => {
     var resData = {};
     const tcb = await Transportcapacitybooking.findById(req.params.id);
 
-    // transportCapacityBookingSpaceRequirements.Transportcargocharacteristicstypes
-    resData[
-      "removedTransportcargocharacteristicstypes"
-    ] = await Transportcapacitybookingspacerequirement.deleteOne({
-      _id:
-        tcb.transportCapacityBookingSpaceRequirements
-          .Transportcargocharacteristicstypes._id,
-    });
+    if (tcb) {
+      resData[
+        "removedTransportcargocharacteristicstypes"
+      ] = await Transportcapacitybookingspacerequirement.deleteOne(
+        {
+          _id:
+            tcb.transportCapacityBookingSpaceRequirements
+              .Transportcargocharacteristicstypes._id,
+        },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // transportCapacityBookingSpaceRequirements.Packagetotaltypes
-    resData[
-      "removedPackagetotaltypes"
-    ] = await Packagetotaltype.findOneAndDelete(
-      {
-        _id:
-          tcb.transportCapacityBookingSpaceRequirements.Packagetotaltypes._id,
-      },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData["removedPackagetotaltypes"] = await Packagetotaltype.deleteOne(
+        {
+          _id:
+            tcb.transportCapacityBookingSpaceRequirements.Packagetotaltypes._id,
+        },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedPickUp.Logisticlocation.contact
-    const plannedPickUpLogisticlocation = await Logisticlocationtype.findById(
-      tcb.plannedPickUp.Logisticlocation
-    );
+      const plannedPickUpLogisticlocation = await Logisticlocationtype.findById(
+        tcb.plannedPickUp.Logisticlocation
+      );
 
-    resData[
-      "removePlannedPickUpLogisticlocationContact"
-    ] = await Contacttype.findOneAndDelete(
-      { _id: plannedPickUpLogisticlocation.contact },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedPickUpLogisticlocationContact"
+      ] = await Contacttype.deleteOne(
+        { _id: plannedPickUpLogisticlocation.contact },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedPickUp.Logisticlocation
-    resData[
-      "removedPlannedPickUpLogisticlocation"
-    ] = await Logisticlocationtype.findOneAndDelete(
-      { _id: plannedPickUpLogisticlocation._id },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedPickUpLogisticlocation"
+      ] = await Logisticlocationtype.deleteOne(
+        { _id: plannedPickUpLogisticlocation._id },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedPickUp.LogisticEventPeriod
-    resData[
-      "removedPlannedPickUpLogisticEventPeriod"
-    ] = await Logisticeventperiod.findOneAndDelete(
-      { _id: tcb.plannedPickUp.LogisticEventPeriod },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedPickUpLogisticEventPeriod"
+      ] = await Logisticeventperiod.deleteOne(
+        { _id: tcb.plannedPickUp.LogisticEventPeriod },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedDropOff.Logisticlocation.contact
-    const plannedDropOffLogisticlocation = await Logisticlocationtype.findById(
-      tcb.plannedDropOff.Logisticlocation
-    );
+      const plannedDropOffLogisticlocation = await Logisticlocationtype.findById(
+        tcb.plannedDropOff.Logisticlocation
+      );
 
-    resData[
-      "removePlannedDropOffLogisticlocationContact"
-    ] = await Contacttype.findOneAndDelete(
-      { _id: plannedDropOffLogisticlocation.contact },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedDropOffLogisticlocationContact"
+      ] = await Contacttype.deleteOne(
+        { _id: plannedDropOffLogisticlocation.contact },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedDropOff.Logisticlocation
-    resData[
-      "removedPlannedDropOffLogisticlocation"
-    ] = await Logisticlocationtype.findOneAndDelete(
-      { _id: plannedDropOffLogisticlocation._id },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedDropOffLogisticlocation"
+      ] = await Logisticlocationtype.deleteOne(
+        { _id: plannedDropOffLogisticlocation._id },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // plannedDropOff.LogisticEventPeriod
-    resData[
-      "removedPlannedDropOffLogisticEventPeriod"
-    ] = await Logisticeventperiod.findOneAndDelete(
-      { _id: tcb.plannedDropOff.LogisticEventPeriod },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
+      resData[
+        "removedPlannedDropOffLogisticEventPeriod"
+      ] = await Logisticeventperiod.deleteOne(
+        { _id: tcb.plannedDropOff.LogisticEventPeriod },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    // transportcapacitybooking
-    resData[
-      "removedTransportcapacitybooking"
-    ] = await Transportcapacitybooking.findOneAndDelete(
-      {
-        _id: id,
-      },
-      function (err, doc) {
-        sendError(err, doc, res);
-      }
-    );
-    console.log(resData);
+      resData[
+        "removedTransportcapacitybooking"
+      ] = await Transportcapacitybooking.deleteOne(
+        {
+          _id: id,
+        },
+        function (err, doc) {
+          sendError(err, doc, res);
+        }
+      );
 
-    await session.abortTransaction();
+      console.log(resData);
+      resData = deleteResponseFormat(resData);
+      await session.commitTransaction();
+    }
     session.endSession();
 
     res.json(resData);
   } catch (ex) {
+    await session.abortTransaction();
     res.status(400).json({
       message: ex.message,
     });
   }
 });
+
+function deleteResponseFormat(data) {
+  if (data && typeof data === "object") {
+    for (const k in data) {
+      const status = data[k].deletedCount > 0 && data[k].n > 0 ? true : false;
+      const msg =
+        data[k].deletedCount > 0 && data[k].n > 0 ? "success" : "failed";
+      for (const l in data[k]) delete data[k][l];
+      data[k]["status"] = status;
+      data[k]["message"] = msg;
+    }
+  }
+  return data;
+}
 
 function sendError(err, doc, res, callback) {
   if (err) return res.send(err);
@@ -571,7 +587,7 @@ router.put("/:id", verify, async (req, res) => {
       res
     );
 
-    const plannedPickUplogisticlocationtypes = await saveLogisticlocationtype(
+    const plannedPickUplogisticlocationtypes = await savePlannedPickupLogisticlocationtype(
       PickUpLocationData,
       res
     );
@@ -593,7 +609,7 @@ router.put("/:id", verify, async (req, res) => {
       res
     );
 
-    const plannedDropOfflogisticeventperiods = await Logisticeventperiod.findOneAndUpdate(
+    const plannedDropOfflogisticeventperiods = await Logisticeventperiod.findByIdAndUpdate(
       DropOffTime.id,
       {
         $set: {
@@ -793,7 +809,7 @@ async function savePackagetotaltype(body, res) {
     if (!body.packagetotaltypeId) {
       packagetotaltype = new Packagetotaltype(packagetotalData);
     } else {
-      packagetotaltype = await Packagetotaltype.findOneAndUpdate(
+      packagetotaltype = await Packagetotaltype.findByIdAndUpdate(
         body.packagetotaltypeId,
         {
           $set: packagetotalData,
@@ -807,10 +823,8 @@ async function savePackagetotaltype(body, res) {
   return await packagetotaltype;
 }
 
-async function saveLogisticlocationtype(body, res) {
+async function savePlannedPickupLogisticlocationtype(body, res) {
   const Logisticlocationtype = require("../models/Logisticlocationtype");
-  const Operatinghourstype = require("../models/Operatinghourstype");
-  const Specialoperatinghourstype = require("../models/Specialoperatinghourstype");
   const Countrycode = require("../models/Countrycode");
   const Currencyofpartycode = require("../models/Currencyofpartycode");
   const Languageofthepartycode = require("../models/Languageofthepartycode");
@@ -831,7 +845,7 @@ async function saveLogisticlocationtype(body, res) {
   const languageofthepartycodes = await Languageofthepartycode.findById(
     body.languageOfthePartyCode
   );
-  // const contacttypes = await Contacttypecode.findById(body.contactTypeCode);
+
   var savedContacttype;
   try {
     const communicationchannels = await Communicationchannel.findById(
@@ -868,7 +882,7 @@ async function saveLogisticlocationtype(body, res) {
       savedContacttype = new Contacttype(contactTypeData);
       await savedContacttype.save();
     } else {
-      savedContacttype = await Contacttype.findOneAndUpdate(body.contactId, {
+      savedContacttype = await Contacttype.findByIdAndUpdate(body.contactId, {
         $set: contactTypeData,
       });
     }
@@ -918,13 +932,147 @@ async function saveLogisticlocationtype(body, res) {
     longitude: body.longitude,
   };
 
-  var logisticlocationtype;
+  var logisticlocationtype = null;
 
   try {
     if (!body.logisticLocationId) {
-      logisticlocationtype = await new Logisticlocationtype(locationTypeData);
+      logisticlocationtype = new Logisticlocationtype(locationTypeData);
+      await logisticlocationtype.save();
     } else {
-      logisticlocationtype = await Logisticlocationtype.findOneAndUpdate(
+      logisticlocationtype = await Logisticlocationtype.findByIdAndUpdate(
+        body.logisticLocationId,
+        {
+          $set: locationTypeData,
+        }
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send(error);
+  }
+
+  return await logisticlocationtype;
+}
+
+async function saveLogisticlocationtype(body, res) {
+  const Logisticlocationtype = require("../models/Logisticlocationtype");
+  // const Operatinghourstype = require("../models/Operatinghourstype");
+  // const Specialoperatinghourstype = require("../models/Specialoperatinghourstype");
+  const Countrycode = require("../models/Countrycode");
+  const Currencyofpartycode = require("../models/Currencyofpartycode");
+  const Languageofthepartycode = require("../models/Languageofthepartycode");
+  const Contacttype = require("../models/Contacttype");
+  const Description200type = require("../models/Description200type");
+  const Identifiertype = require("../models/Identifiertype");
+
+  const locationspecificinstructions = await Description200type.findById(
+    body.locationSpecificInstructionsCode
+  );
+  const additionallocationidentifications = await Identifiertype.findById(
+    body.additionalLocationIdentificationCode
+  );
+  const countrycodes = await Countrycode.findById(body.countryCode);
+  const currencyofpartycodes = await Currencyofpartycode.findById(
+    body.currencyOfPartyCode
+  );
+  const languageofthepartycodes = await Languageofthepartycode.findById(
+    body.languageOfthePartyCode
+  );
+
+  var savedContacttype;
+  try {
+    const communicationchannels = await Communicationchannel.findById(
+      body.communicationChannelCode
+    );
+    const responsibilitys = await Description70type.findById(
+      body.responsibility
+    );
+    const contacttypecodes = await Contacttypecode.findById(
+      body.contactTypeCode
+    );
+
+    const contactTypeData = {
+      personName: body.personName,
+      departmentName: body.departmentName,
+      jobTitle: body.jobTitle,
+      communicationChannelName: body.communicationChannelName,
+      communicationValue: body.communicationValue,
+      communicationChannelCode: {
+        Id: communicationchannels._id,
+        Name: communicationchannels.communicationChannelName,
+      },
+      responsibility: {
+        Id: responsibilitys._id,
+        Name: responsibilitys.codeListVersion,
+      },
+      contactTypeCode: {
+        Id: contacttypecodes._id,
+        Name: contacttypecodes.codeListVersion,
+      },
+    };
+
+    if (!body.contactId) {
+      savedContacttype = new Contacttype(contactTypeData);
+      await savedContacttype.save();
+    } else {
+      savedContacttype = await Contacttype.findByIdAndUpdate(body.contactId, {
+        $set: contactTypeData,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send(error);
+  }
+
+  const locationTypeData = {
+    unLocationCode: body.unLocationCode,
+    sublocationIdentification: body.sublocationIdentification,
+    locationName: body.locationName,
+    utcOffset: body.uTCOffset,
+    locationSpecificInstructions: {
+      Id: locationspecificinstructions._id,
+      Name: locationspecificinstructions.codeListVersion,
+    },
+    additionalLocationIdentification: {
+      Id: additionallocationidentifications._id,
+      Name: additionallocationidentifications.identificationSchemeName,
+    },
+    contact: savedContacttype._id,
+    cityCode: body.cityName,
+    countryCode: {
+      Id: countrycodes._id,
+      Name: countrycodes.codeListVersion,
+    },
+    currencyOfParty: {
+      Id: currencyofpartycodes._id,
+      Name: currencyofpartycodes.codeListVersion,
+    },
+    languageOfTheParty: {
+      Id: languageofthepartycodes._id,
+      Name: languageofthepartycodes.codeListVersion,
+    },
+    countyCode: body.countyCode,
+    crossStreet: body.crossStreet,
+    name: body.name,
+    pOBoxNumber: body.postBoxNumber,
+    postalCode: body.postalCode,
+    provinceCode: body.provinceCode,
+    state: body.state,
+    streetAddressOne: body.streetAddressOne,
+    streetAddressTwo: body.streetAddressTwo,
+    streetAddressThree: body.streetAddressThree,
+    latitude: body.latitude,
+    longitude: body.longitude,
+  };
+
+  var logisticlocationtype = null;
+
+  try {
+    if (!body.logisticLocationId) {
+      logisticlocationtype = new Logisticlocationtype(locationTypeData);
+      await logisticlocationtype.save();
+    } else {
+      logisticlocationtype = await Logisticlocationtype.findByIdAndUpdate(
         body.logisticLocationId,
         {
           $set: locationTypeData,
@@ -940,7 +1088,7 @@ async function saveLogisticlocationtype(body, res) {
 }
 
 const getRandomNumber = () => {
-  return +Math.floor(10000000000000 + Math.random() * 90000000000000)
+  return +Math.floor(10000000000000 + Math.random() * 987654321000)
     .toString()
     .substr(0, 13);
 };
