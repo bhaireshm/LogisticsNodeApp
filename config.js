@@ -1,4 +1,5 @@
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 const db_ip = process.env.DB_IP;
 const db_port = process.env.DB_PORT;
 
@@ -13,10 +14,10 @@ const DB = {
   },
 };
 
-// console.log(DB);
-
 var config = {
   DB_CONNECTION: DB.server.url,
   TOKKEN_SECRET: DB.server.key,
+  PORT: 5000,
 };
+
 module.exports = config;

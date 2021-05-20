@@ -186,12 +186,14 @@ const TransportservicelevelcodesRoute = require("./src/routes/Transportservicele
 const UnitmeasurementtypesRoute = require("./src/routes/Unitmeasurementtypes");
 const UnlocationcodesRoute = require("./src/routes/Unlocationcodes");
 const WidthsRoute = require("./src/routes/Widths");
+const { debug, logger, readAPI } = require("./src/helper/logger");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(readAPI);
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "src/public")));
 
 //Your API ENDPOINTS
 app.use("/api/user", authRoute);
@@ -491,13 +493,13 @@ mongoose
   })
   .then(() => {
     mongoose.set("useFindAndModify", false);
-    console.log("Connected to your MongoDB.");
+    logger("Connected to MongoDB.");
   })
   .catch((err) => {
-    console.log("Failed to connected to DB Error: " + err.message);
+    debug("Failed to connected to DB Error: " + err.message);
   });
 
 let createServiceObj = null;
 createServiceObj = createService.getInstance();
 createServiceObj.createSampleUser();
-app.listen(5000, () => console.log("listening on port 5000"));
+app.listen(config.PORT, () => logger("Listening on port " + config.PORT));
