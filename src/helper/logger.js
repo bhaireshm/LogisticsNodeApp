@@ -8,9 +8,10 @@ const alignContent = (d, l = 6) => {
 // This method will trigger for every API call
 exports.readAPI = (req, res, next) => {
   console.log(
-    `${chalk.green(alignContent(req.method))} ${chalk.green(res.statusCode)} ${
-      req.url
-    }`
+    `${chalk.green(alignContent(req.method))} ` +
+      `${chalk.green(res.statusCode)} ` +
+      `${chalk.green(`[${req.ip}]`)} ` +
+      `${req.url}`
   );
   next();
 };
