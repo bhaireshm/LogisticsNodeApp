@@ -12,11 +12,15 @@
     "rules": {
         "quotes": [
             "error",
-            "double"
+            "double",
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-dupe-keys": 1
     }
 }

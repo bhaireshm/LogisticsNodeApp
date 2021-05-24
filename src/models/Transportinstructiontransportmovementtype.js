@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 const mongoose = require("mongoose");
 
 const TransportinstructiontransportmovementtypeScheema = mongoose.Schema({
