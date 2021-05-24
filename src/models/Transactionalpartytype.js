@@ -2,25 +2,20 @@
 const mongoose = require("mongoose");
 
 const TransactionalpartytypeScheema = mongoose.Schema({
-  id: {
+  gln: {
     type: Number,
     required: true,
-  },
-  gln: {
-    type: String,
-    required: false,
-  },
-  additionalPartyIdentification: {
-    type: Number,
-    required: false,
+    validate: /\d{13}/,
   },
   address: {
-    type: Number,
-    required: false,
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "Addresstype",
   },
   contact: {
-    type: Number,
-    required: false,
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "Contacttypes",
   },
   dutyFeeTaxRegistration: {
     type: Number,

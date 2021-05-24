@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-keys */
 const mongoose = require("mongoose");
 
-const TransportinstructionconsignmentitemtypeScheema = mongoose.Schema({
+const TransportInstructionShipmentItemTypeSchema = mongoose.Schema({
   lineItemNumber: {
     type: Number,
     required: false,
@@ -62,6 +62,6 @@ const TransportinstructionconsignmentitemtypeScheema = mongoose.Schema({
 });
 
 module.exports = mongoose.model(
-  "Transportinstructionconsignmentitemtypes",
-  TransportinstructionconsignmentitemtypeScheema
+  "TransportInstructionShipmentItemType",
+  TransportInstructionShipmentItemTypeSchema
 );

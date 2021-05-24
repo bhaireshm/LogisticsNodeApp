@@ -1,22 +1,22 @@
 /* eslint-disable no-dupe-keys */
 const mongoose = require("mongoose");
 
-const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
-  ginc: {
+const TransportinstructionshipmenttypeSchema = mongoose.Schema({
+  gsin: {
     type: Number,
     required: true,
-    validate: /[-!"%&'()*+,./0-9:;<=>?A-Z_a-z]{4,30}/,
+    validate: /\d{17}/,
   },
-  additionalConsignmentIdentification: {
+  additionalShipmentIdentification: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "Additionalconsignmentidentificationtypes",
+    ref: "Additionalshipmentidentificationtypes",
   },
 
-  parentConsignmentID: {
+  parentShipmentID: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "Consignmentidentificationtypes",
+    ref: "Shipmentidentificationtypes",
   },
   transportInstructionStatusCode: {
     type: mongoose.Types.ObjectId,
@@ -49,12 +49,17 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
     ref: "Description500types",
   },
 
-  consignor: {
+  receiver: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Transactionalpartytypes",
   },
-  consignee: {
+  shipper: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "Transactionalpartytypes",
+  },
+  carrier: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Transactionalpartytypes",
@@ -64,22 +69,22 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
     required: true,
     ref: "Transactionalpartytypes",
   },
-  pickUpParty: {
+  shipTo: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Transactionalpartytypes",
   },
-  dropOffParty: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Transactionalpartytypes",
-  },
-  exportAgent: {
+  shipFrom: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Transactionalpartytypes",
   },
   importAgent: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "Transactionalpartytypes",
+  },
+  exportAgent: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Transactionalpartytypes",
@@ -94,20 +99,15 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
     required: true,
     ref: "Transportcargocharacteristicstypes",
   },
-  plannedPickUp: {
+  plannedDelivery: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Logisticeventtypes",
   },
-  plannedDropOff: {
+  plannedDespatch: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Logisticeventtypes",
-  },
-  transportInstructionTransportMovement: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Transportinstructiontransportmovementtypes",
   },
   deliveryTerms: {
     type: mongoose.Types.ObjectId,
@@ -118,11 +118,6 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Packagetotaltypes",
-  },
-  containedShipmentReference: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Shipmentidentificationtypes",
   },
   transportReference: {
     type: mongoose.Types.ObjectId,
@@ -139,29 +134,14 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
     required: true,
     ref: "Dangerousgoodsinformationtypes",
   },
-  includedTransportMeans: {
+  transportInstructionShipmentItem: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "Transportmeanstypes",
-  },
-  includedTransportEquipment: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Transportinstructiontransportequipmenttypes",
-  },
-  passengerInformation: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Passengerinformationtypes",
-  },
-  transportInstructionConsignmentItem: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Transportinstructionconsignmentitemtypes",
+    ref: "Transportinstructionshipmentitemtype",
   },
 });
 
 module.exports = mongoose.model(
-  "Transportinstructionconsignmenttype",
-  TransportinstructionconsignmenttypeSchema
+  "transportinstructionshipmenttype",
+  TransportinstructionshipmenttypeSchema
 );
