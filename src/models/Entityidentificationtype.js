@@ -13,6 +13,7 @@ const EntityidentificationtypeScheema = mongoose.Schema({
     type: Number,
     required: false
   },
+  // eslint-disable-next-line no-dupe-keys
   contentOwner: {
     type: [{
       Id: {

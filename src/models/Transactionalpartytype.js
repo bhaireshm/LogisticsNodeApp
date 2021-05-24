@@ -1,120 +1,136 @@
+/* eslint-disable no-dupe-keys */
 const mongoose = require("mongoose");
 
 const TransactionalpartytypeScheema = mongoose.Schema({
   id: {
     type: Number,
-    required: true
+    required: true,
   },
   gln: {
     type: String,
-    required: false
+    required: false,
   },
   additionalPartyIdentification: {
     type: Number,
-    required: false
+    required: false,
   },
   address: {
     type: Number,
-    required: false
+    required: false,
   },
   contact: {
     type: Number,
-    required: false
+    required: false,
   },
   dutyFeeTaxRegistration: {
     type: Number,
-    required: false
+    required: false,
   },
   organisationDetails: {
     type: Number,
-    required: false
+    required: false,
   },
   financialInstitutionInformation: {
     type: Number,
-    required: false
+    required: false,
   },
   additionalPartyIdentification: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
   dutyFeeTaxRegistration: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
   financialInstitutionInformation: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
   organisationDetails: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
   address: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
   contact: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Transactionalpartytypes", TransactionalpartytypeScheema);
+module.exports = mongoose.model(
+  "Transactionalpartytypes",
+  TransactionalpartytypeScheema
+);

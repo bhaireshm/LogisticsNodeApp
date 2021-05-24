@@ -9,6 +9,7 @@ const Ecom_attributevaluepairlisttypeScheema = mongoose.Schema({
     type: String,
     required: false
   },
+  // eslint-disable-next-line no-dupe-keys
   eComStringAttributeValuePairList: {
     type: [{
       Id: {
