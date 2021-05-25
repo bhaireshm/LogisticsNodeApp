@@ -21,7 +21,7 @@ const TransportinstructionconsignmenttypeSchema = mongoose.Schema({
   transportInstructionStatusCode: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "transportInstructionStatusEnumerationType",
+    ref: "Transportinstructionstatusenumerationtype",
   },
   transportInstructionStatusDescription: {
     type: mongoose.Types.ObjectId,
