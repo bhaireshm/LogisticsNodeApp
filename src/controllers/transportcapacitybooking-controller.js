@@ -13,6 +13,7 @@ const Communicationchannel = require("../models/Communicationchannel");
 const Description70type = require("../models/Description70type");
 const Measurementtype = require("../models/Measurementtype");
 const Amounttype = require("../models/Amounttype");
+const { sendError, getRandomNumber } = require("../helpers/helper");
 
 exports.getAllBookings = async (req, res) => {
   try {
@@ -29,10 +30,10 @@ exports.getAllBookings = async (req, res) => {
       .populate("plannedDropOff.contact")
       .exec((e, r) => {
         if (e) return res.status(400).send(e);
-        res.send(r);
+        return res.send(r);
       });
   } catch (ex) {
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -77,7 +78,7 @@ exports.search = async (req, res) => {
 
           const data = [];
           data.push(r);
-          res.send(data);
+          return res.send(data);
         });
     }
 
@@ -122,7 +123,7 @@ exports.search = async (req, res) => {
           // console.log(contact);
           // r.plannedPickUp.Logisticlocation.contact = contact;
           const data = [...r];
-          res.send(data);
+          return res.send(data);
         });
     }
 
@@ -131,7 +132,7 @@ exports.search = async (req, res) => {
         message: "No data found",
       });
   } catch (ex) {
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -231,9 +232,9 @@ exports.getBookingById = async (req, res) => {
           // );
 
           // console.log(r);
-          res.json(r);
+          return res.json(r);
         } catch (ex) {
-          res.status(400).json({
+          return res.status(400).json({
             message: ex.message,
           });
         }
@@ -243,7 +244,7 @@ exports.getBookingById = async (req, res) => {
         message: "No data found",
       });
   } catch (ex) {
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -391,11 +392,11 @@ exports.postBooking = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
-    res.status(200).json(savedTransportcapacitybooking);
+    return res.status(200).json(savedTransportcapacitybooking);
   } catch (ex) {
     await session.abortTransaction();
     session.endSession();
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -505,10 +506,10 @@ exports.deleteBooking = async (req, res) => {
     }
     session.endSession();
 
-    res.json(resData);
+    return res.json(resData);
   } catch (ex) {
     await session.abortTransaction();
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -616,11 +617,11 @@ exports.updateBooking = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
-    res.status(200).json(updatedTransportcapacitybooking);
+    return res.status(200).json(updatedTransportcapacitybooking);
   } catch (ex) {
     await session.abortTransaction();
     session.endSession();
-    res.status(400).json({
+    return res.status(400).json({
       message: ex.message,
     });
   }
@@ -1058,13 +1059,7 @@ async function saveLogisticlocationtype(body, res) {
   return await logisticlocationtype;
 }
 
-const getRandomNumber = () => {
-  return +Math.floor(10000000000000 + Math.random() * 987654321000)
-    .toString()
-    .substr(0, 13);
-};
-
-function deleteResponseFormat(data) {
+const deleteResponseFormat = (data) => {
   if (data && typeof data === "object") {
     for (const k in data) {
       const status = data[k].deletedCount > 0 && data[k].n > 0 ? true : false;
@@ -1076,10 +1071,4 @@ function deleteResponseFormat(data) {
     }
   }
   return data;
-}
-
-function sendError(err, doc, res, callback) {
-  if (err) return res.send(err);
-  if (callback) return callback(doc);
-  return doc;
-}
+};

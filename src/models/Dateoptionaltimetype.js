@@ -1,22 +1,21 @@
 const mongoose = require("mongoose");
 
 const DateoptionaltimetypeScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   date: {
-    type: Date,
-    required: false
+    type: String,
+    required: false,
   },
   time: {
-    type: Date,
-    required: false
+    type: String,
+    required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Dateoptionaltimetypes", DateoptionaltimetypeScheema);
+module.exports = mongoose.model(
+  "Dateoptionaltimetypes",
+  DateoptionaltimetypeScheema
+);

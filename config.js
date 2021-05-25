@@ -4,7 +4,7 @@ const db_ip = process.env.DB_IP;
 const db_port = process.env.DB_PORT;
 
 const DB = {
-  localhost: {
+  local: {
     url: "mongodb://localhost:27017/LogisticsDb",
     key: "231sad_ItCanBeAnyRandString_UGHASD82371923192J",
   },
