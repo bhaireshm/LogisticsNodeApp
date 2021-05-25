@@ -1,70 +1,78 @@
 const mongoose = require("mongoose");
 
 const AddressScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   city: {
     type: String,
-    required: false
+    required: false,
   },
   cityCode: {
     type: String,
-    required: false
+    required: false,
+  },
+  countryCode: {
+    type: mongoose.Types.ObjectId,
+    required: false,
+    ref: "Countrycodes",
   },
   countyCode: {
     type: String,
-    required: false
+    required: false,
   },
   crossStreet: {
     type: String,
-    required: false
+    required: false,
+  },
+  currencyOfParty: {
+    type: mongoose.Types.ObjectId,
+    required: false,
+    ref: "Currencyofpartycodes",
+  },
+  languageOfTheParty: {
+    type: mongoose.Types.ObjectId,
+    required: false,
+    ref: "Languageofthepartycodes",
   },
   name: {
     type: String,
-    required: false
+    required: false,
   },
   pOBoxNumber: {
     type: String,
-    required: false
+    required: false,
   },
   postalCode: {
     type: String,
-    required: false
+    required: false,
   },
   provinceCode: {
     type: String,
-    required: false
+    required: false,
   },
   state: {
     type: String,
-    required: false
+    required: false,
   },
   streetAddressOne: {
     type: String,
-    required: false
+    required: false,
   },
   streetAddressTwo: {
     type: String,
-    required: false
+    required: false,
   },
   streetAddressThree: {
     type: String,
-    required: false
+    required: false,
   },
-  latitude:{
-    type: String,
-    required: false
+  geographicalCoordinates: {
+    type: mongoose.Types.ObjectId,
+    required: false,
+    ref: "Geographicalcoordinatess",
   },
-  longitude:{
-    type: String,
-    required: false
-  },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Addresss", AddressScheema);
