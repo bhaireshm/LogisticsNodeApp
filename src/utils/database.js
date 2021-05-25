@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("../../config");
-const { logger, debug } = require("../helper/logger");
+const { logger, debug } = require("../helpers/logger");
 const createService = require("../services/sampleRecord");
 
 //YOUR DATABASE WITH A SAMPLE RECORD

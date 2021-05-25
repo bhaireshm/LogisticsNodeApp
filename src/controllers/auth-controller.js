@@ -1,13 +1,13 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 var config = require("../../config");
 
 const {
   registerValidation,
   loginValidation,
-} = require("../services/validation");
-const { formatResponse } = require("../helper/logger");
+} = require("../utils/validators/auth-validation");
+const { formatResponse } = require("../helpers/logger");
 
 exports.registerUser = async (req, res) => {
   try {
