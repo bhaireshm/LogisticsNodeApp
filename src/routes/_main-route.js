@@ -10,7 +10,7 @@ const AdditionalpartyidentificationsRoute = require("./Additionalpartyidentifica
 const AdditionalpartyidentificationtypesRoute = require("./Additionalpartyidentificationtypes");
 const AdditionalreturnableassetidentificationsRoute = require("./Additionalreturnableassetidentifications");
 const AdditionalshipmentidentificationtypesRoute = require("./Additionalshipmentidentificationtypes");
-const AddresssRoute = require("./Addresss");
+const AddressRoute = require("./Address");
 const AfterhourscommunicationchannelsRoute = require("./Afterhourscommunicationchannels");
 const AlternatedeliverytermscodesRoute = require("./Alternatedeliverytermscodes");
 const AmounttypesRoute = require("./Amounttypes");
@@ -215,7 +215,7 @@ mainRoute.use(
   "/api/additionalshipmentidentificationtypes",
   AdditionalshipmentidentificationtypesRoute
 );
-mainRoute.use("/api/addresss", AddresssRoute);
+mainRoute.use("/api/address", AddressRoute);
 mainRoute.use(
   "/api/afterhourscommunicationchannels",
   AfterhourscommunicationchannelsRoute

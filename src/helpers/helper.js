@@ -45,3 +45,15 @@ exports.sendError = (err, doc, res, callback) => {
   if (callback) return callback(doc);
   return doc;
 };
+
+exports.serviceResponse = (msg) => {
+  return { message: msg };
+};
+
+exports.APISuccessResponse = (d, m = "Fetch successfull", s = true) => {
+  return { status: s, data: d, message: m };
+};
+
+exports.APIErrorResponse = (d, m = "Failed", s = false) => {
+  return { status: s, data: d, message: m };
+};
