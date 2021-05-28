@@ -1,32 +1,28 @@
 const mongoose = require("mongoose");
 
 const Ecom_attributevaluepairlisttypeScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   eComStringAttributeValuePairList: {
-    type: String,
-    required: false
+    type: [
+      {
+        Id: {
+          type: String,
+          required: true,
+        },
+        Name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    required: true,
   },
-  // eslint-disable-next-line no-dupe-keys
-  eComStringAttributeValuePairList: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
-  },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Ecom_attributevaluepairlisttypes", Ecom_attributevaluepairlisttypeScheema);
+module.exports = mongoose.model(
+  "Ecom_attributevaluepairlisttypes",
+  Ecom_attributevaluepairlisttypeScheema
+);

@@ -1,5 +1,8 @@
 const { debug, logger } = require("../helpers/logger");
 const Transportinstruction = require("../models/Transportinstruction");
+const {
+  createDateoptionaltimetype,
+} = require("../services/Dateoptionaltimetype-service");
 
 exports.getAllTransportInstructions = async (req, res) => {
   try {
@@ -25,9 +28,10 @@ exports.getTransportInstructionById = async (req, res) => {
 
 exports.postTransportInstructions = async (req, res) => {
   try {
-    // let reqClone = req;
-
-    // const dateoptionaltimetype = postDateoptionaltimetype({id: req.body.documentEffectiveDate});
+    const dateoptionaltimetype = await createDateoptionaltimetype(
+      req.body.documentEffectiveDate,
+      req.body.documentEffectiveTime
+    );
 
     const transportinstruction = await new Transportinstruction({
       creationDateTime: req.body.creationDateTime,
@@ -40,9 +44,9 @@ exports.postTransportInstructions = async (req, res) => {
       transportInstructionFunction: req.body.transportInstructionFunction,
 
       // different tables
-      documentEffectiveDate: req.body.documentEffectiveDate,
-
+      documentEffectiveDate: dateoptionaltimetype._id,
       avpList: req.body.avpList,
+      
       transportInstructionIdentification: {
         entityIdentification: req.body.entityIdentification,
         contentOwner: req.body.contentOwner,

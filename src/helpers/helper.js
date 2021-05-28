@@ -46,8 +46,8 @@ exports.sendError = (err, doc, res, callback) => {
   return doc;
 };
 
-exports.serviceResponse = (msg) => {
-  return { message: msg };
+exports.serviceResponse = (msg, s = true) => {
+  return { message: msg, status: s };
 };
 
 exports.APISuccessResponse = (d, m = "Fetch successfull", s = true) => {
