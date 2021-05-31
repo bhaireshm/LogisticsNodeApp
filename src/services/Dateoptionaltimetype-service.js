@@ -1,4 +1,4 @@
-const { serviceResponse } = require("../helpers/helper");
+const { serviceResponse } = require("../helpers/response");
 const Dateoptionaltimetype = require("../models/Dateoptionaltimetype");
 
 exports.createDateoptionaltimetype = async (date, time) => {

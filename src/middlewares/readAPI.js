@@ -1,6 +1,6 @@
 // This method will trigger for every API call
 const chalk = require("chalk");
-const { alignContent } = require("../helpers/helper");
+const { alignContent } = require("../helpers/logger");
 
 const readEveryAPI = (req, res, next) => {
     console.log(

@@ -1,4 +1,8 @@
-const { APISuccessResponse, APIErrorResponse, deleteResponseFormat } = require("../helpers/helper");
+const {
+  APISuccessResponse,
+  APIErrorResponse,
+  deleteResponseFormat,
+} = require("../helpers/response");
 const Ecom_attributevaluepairlisttype = require("../models/Ecom_attributevaluepairlisttype");
 const {
   createEcom_attributevaluepairlisttype,
@@ -35,11 +39,8 @@ exports.getEcom_attributevaluepairlisttypeById = async (req, res) => {
 
 exports.postEcom_attributevaluepairlisttype = async (req, res) => {
   try {
-    let savedEcom_attributevaluepairlisttype;
-    createEcom_attributevaluepairlisttype(req.body)
-      .then((result) => {
-        savedEcom_attributevaluepairlisttype = result;
-
+    await createEcom_attributevaluepairlisttype(req.body)
+      .then((savedEcom_attributevaluepairlisttype) => {
         if (!savedEcom_attributevaluepairlisttype.status) {
           res
             .status(400)

@@ -13,6 +13,7 @@ const app = express();
 
 // Middlewares
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "src/public")));
 app.use(readEveryAPI);

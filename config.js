@@ -1,7 +1,9 @@
 const dotenv = require("dotenv");
+const { requireProcessEnv } = require("./src/helpers/helper");
 dotenv.config();
-const db_ip = process.env.DB_IP;
-const db_port = process.env.DB_PORT;
+
+const db_ip = requireProcessEnv("DB_IP");
+const db_port = requireProcessEnv("DB_PORT");
 
 const DB = {
   local: {

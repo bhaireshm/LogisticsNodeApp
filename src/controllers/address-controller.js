@@ -1,4 +1,4 @@
-const { APIErrorResponse, APISuccessResponse } = require("../helpers/helper");
+const { APIErrorResponse, APISuccessResponse } = require("../helpers/response");
 const Address = require("../models/Address");
 const { createAddress, updateAddress } = require("../services/Address-service");
 

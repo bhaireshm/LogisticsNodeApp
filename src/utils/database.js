@@ -3,6 +3,11 @@ const config = require("../../config");
 const { logger, debug } = require("../helpers/logger");
 const createService = require("../services/sampleRecord");
 
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error: " + err);
+  process.exit(-1);
+});
+
 //YOUR DATABASE WITH A SAMPLE RECORD
 function mongooseConnect() {
   return mongoose

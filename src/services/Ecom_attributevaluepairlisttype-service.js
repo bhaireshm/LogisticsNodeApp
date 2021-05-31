@@ -1,4 +1,4 @@
-const { serviceResponse } = require("../helpers/helper");
+const { serviceResponse } = require("../helpers/response");
 const Ecomstringattributevaluepairlist = require("../models/Ecomstringattributevaluepairlist");
 const Ecom_attributevaluepairlisttype = require("../models/Ecom_attributevaluepairlisttype");
 
