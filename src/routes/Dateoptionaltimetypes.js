@@ -1,22 +1,36 @@
 const express = require("express");
-const {
-  getAllDateoptionaltimetypes,
-  getDateoptionaltimetypeById,
-  postDateoptionaltimetype,
-  deleteDateoptionaltimetypeById,
-  putDateoptionaltimetype,
-} = require("../controllers/dateoptionaltimetype-controller");
+const DateoptionaltimetypesController = require("../controllers/dateoptionaltimetype-controller");
 const router = express.Router();
 const verify = require("./verifyToken");
 
-router.get("/", verify, getAllDateoptionaltimetypes);
+router.get(
+  "/",
+  verify,
+  DateoptionaltimetypesController.getAllDateoptionaltimetypes
+);
 
-router.get("/:id", verify, getDateoptionaltimetypeById);
+router.get(
+  "/:id",
+  verify,
+  DateoptionaltimetypesController.getDateoptionaltimetypeById
+);
 
-router.post("/", verify, postDateoptionaltimetype);
+router.post(
+  "/",
+  verify,
+  DateoptionaltimetypesController.postDateoptionaltimetype
+);
 
-router.delete("/:id", verify, deleteDateoptionaltimetypeById);
+router.delete(
+  "/:id",
+  verify,
+  DateoptionaltimetypesController.deleteDateoptionaltimetypeById
+);
 
-router.put("/:id", verify, putDateoptionaltimetype);
+router.put(
+  "/:id",
+  verify,
+  DateoptionaltimetypesController.putDateoptionaltimetype
+);
 
 module.exports = router;

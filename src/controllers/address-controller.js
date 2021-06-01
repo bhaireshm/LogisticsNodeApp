@@ -2,7 +2,9 @@ const { APIErrorResponse, APISuccessResponse } = require("../helpers/response");
 const Address = require("../models/Address");
 const { createAddress, updateAddress } = require("../services/Address-service");
 
-exports.getAllAddress = async (req, res) => {
+var AddressController = {};
+
+AddressController.getAllAddress = async (req, res) => {
   try {
     const Addresss = await Address.find();
     return res.json(APISuccessResponse(Addresss));
@@ -11,7 +13,7 @@ exports.getAllAddress = async (req, res) => {
   }
 };
 
-exports.getAddressById = async (req, res) => {
+AddressController.getAddressById = async (req, res) => {
   try {
     const address = await Address.findById(req.params.id);
     return res.json({
@@ -35,7 +37,7 @@ exports.getAddressById = async (req, res) => {
   }
 };
 
-exports.postAddress = async (req, res) => {
+AddressController.postAddress = async (req, res) => {
   try {
     const savedAddress = await createAddress(req.body);
     return res
@@ -46,7 +48,7 @@ exports.postAddress = async (req, res) => {
   }
 };
 
-exports.deleteAddressById = async (req, res) => {
+AddressController.deleteAddressById = async (req, res) => {
   try {
     const removedAddress = await Address.remove({ _id: req.params.id });
     return res.json(
@@ -57,7 +59,7 @@ exports.deleteAddressById = async (req, res) => {
   }
 };
 
-exports.putAddressById = async (req, res) => {
+AddressController.putAddressById = async (req, res) => {
   try {
     const updatedAddress = await updateAddress({
       ...req.body,
@@ -70,3 +72,5 @@ exports.putAddressById = async (req, res) => {
     return res.status(400).json(APIErrorResponse(ex, ex.message));
   }
 };
+
+module.exports = AddressController;

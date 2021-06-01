@@ -3,8 +3,12 @@ const Transportinstruction = require("../models/Transportinstruction");
 const {
   createDateoptionaltimetype,
 } = require("../services/Dateoptionaltimetype-service");
+var TransportinstructionController = {};
 
-exports.getAllTransportInstructions = async (req, res) => {
+TransportinstructionController.getAllTransportInstructions = async (
+  req,
+  res
+) => {
   try {
     const transportinstructions = await Transportinstruction.find();
     logger(transportinstructions);
@@ -15,7 +19,10 @@ exports.getAllTransportInstructions = async (req, res) => {
   }
 };
 
-exports.getTransportInstructionById = async (req, res) => {
+TransportinstructionController.getTransportInstructionById = async (
+  req,
+  res
+) => {
   try {
     const transportinstruction = await Transportinstruction.findById(
       req.params.id
@@ -26,7 +33,7 @@ exports.getTransportInstructionById = async (req, res) => {
   }
 };
 
-exports.postTransportInstructions = async (req, res) => {
+TransportinstructionController.postTransportInstructions = async (req, res) => {
   try {
     const dateoptionaltimetype = await createDateoptionaltimetype(
       req.body.documentEffectiveDate,
@@ -46,7 +53,7 @@ exports.postTransportInstructions = async (req, res) => {
       // different tables
       documentEffectiveDate: dateoptionaltimetype._id,
       avpList: req.body.avpList,
-      
+
       transportInstructionIdentification: {
         entityIdentification: req.body.entityIdentification,
         contentOwner: req.body.contentOwner,
@@ -63,7 +70,10 @@ exports.postTransportInstructions = async (req, res) => {
   }
 };
 
-exports.deleteTransportInstructionById = async (req, res) => {
+TransportinstructionController.deleteTransportInstructionById = async (
+  req,
+  res
+) => {
   try {
     const removedTransportInstruction = await Transportinstruction.remove({
       _id: req.params.id,
@@ -74,7 +84,4 @@ exports.deleteTransportInstructionById = async (req, res) => {
   }
 };
 
-/**
- * Private Functions
- */
-// function name() {}
+module.exports = TransportinstructionController;

@@ -1,17 +1,17 @@
 const router = require("express").Router();
 const verify = require("./verifyToken");
-const authController = require("../controllers/auth-controller");
+const AuthController = require("../controllers/auth-controller");
 
-router.post("/register", authController.registerUser);
+router.post("/register", AuthController.registerUser);
 
-router.post("/login", authController.login);
+router.post("/login", AuthController.login);
 
-router.get("/", verify, authController.getUsers);
+router.get("/", verify, AuthController.getUsers);
 
-router.get("/:id", verify, authController.findUserById);
+router.get("/:id", verify, AuthController.findUserById);
 
-router.put("/:id", verify, authController.updateUser);
+router.put("/:id", verify, AuthController.updateUser);
 
-router.put("/updatePassword/:id", authController.updatePassword);
+router.put("/updatePassword/:id", AuthController.updatePassword);
 
 module.exports = router;

@@ -1,7 +1,9 @@
 const Joi = require("joi");
 
+var AuthValidator = {};
+
 //Register Validation Scheema
-const registerValidation = (data) => {
+AuthValidator.registerValidation = (data) => {
   const scheema = Joi.object({
     name: Joi.string().min(5).required(),
     email: Joi.string().min(6).required().email(),
@@ -11,7 +13,7 @@ const registerValidation = (data) => {
 };
 
 //Login Validation Scheema
-const loginValidation = (data) => {
+AuthValidator.loginValidation = (data) => {
   const scheema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
@@ -19,5 +21,4 @@ const loginValidation = (data) => {
   return scheema.validate(data);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
+module.exports = AuthValidator;

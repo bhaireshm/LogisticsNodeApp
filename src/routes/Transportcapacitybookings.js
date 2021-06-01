@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const verify = require("./verifyToken");
-const transportcapacitybookingController = require("../controllers/transportcapacitybooking-controller");
+const TransportcapacitybookingController = require("../controllers/transportcapacitybooking-controller");
 
-router.get("/", verify, transportcapacitybookingController.getAllBookings);
+router.get("/", verify, TransportcapacitybookingController.getAllBookings);
 
-router.get("/filter", verify, transportcapacitybookingController.search);
+router.get("/filter", verify, TransportcapacitybookingController.search);
 
-router.get("/:id", verify, transportcapacitybookingController.getBookingById);
+router.get("/:id", verify, TransportcapacitybookingController.getBookingById);
 
-router.post("/", verify, transportcapacitybookingController.postBooking);
+router.post("/", verify, TransportcapacitybookingController.postBooking);
 
-router.delete("/:id", verify, transportcapacitybookingController.deleteBooking);
+router.delete("/:id", verify, TransportcapacitybookingController.deleteBooking);
 
-router.put("/:id", verify, transportcapacitybookingController.updateBooking);
+router.put("/:id", verify, TransportcapacitybookingController.updateBooking);
 
 module.exports = router;

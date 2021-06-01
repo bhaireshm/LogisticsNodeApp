@@ -3,16 +3,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var config = require("../../config");
 
-const {
-  registerValidation,
-  loginValidation,
-} = require("../utils/validators/auth-validation");
+const AuthValidator = require("../utils/validators/auth-validation");
 const { formatResponse } = require("../helpers/logger");
+var AuthController = {};
 
-exports.registerUser = async (req, res) => {
+AuthController.registerUser = async (req, res) => {
   try {
     //validate data before creating user using the JOI.
-    const { error } = registerValidation(req.body);
+    const { error } = AuthValidator.registerValidation(req.body);
     if (error) res.status(400).send(error.details[0].message);
 
     //check if email is already in DB i.e should be unique
@@ -38,10 +36,10 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+AuthController.login = async (req, res) => {
   try {
     //validate data before logining user using the JOI.
-    const { error } = loginValidation(req.body);
+    const { error } = AuthValidator.loginValidation(req.body);
     if (error) res.status(400).send(error.details[0].message);
 
     //check if user is in DB i.e if user is registered
@@ -62,7 +60,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getUsers = async (req, res) => {
+AuthController.getUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -71,7 +69,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.findUserById = async (req, res) => {
+AuthController.findUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json({
@@ -85,7 +83,7 @@ exports.findUserById = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+AuthController.updateUser = async (req, res) => {
   try {
     const userInfo = await User.updateOne(
       { _id: req.params.id },
@@ -111,7 +109,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.updatePassword = async (req, res) => {
+AuthController.updatePassword = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
     const passwordMatched = await bcrypt.compare(
@@ -136,3 +134,5 @@ exports.updatePassword = async (req, res) => {
     res.status(400).json(formatResponse(null, ex.message, false));
   }
 };
+
+module.exports = AuthController;

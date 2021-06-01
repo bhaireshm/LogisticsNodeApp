@@ -8,7 +8,12 @@ const {
   updateDateoptionaltimetype,
 } = require("../services/Dateoptionaltimetype-service");
 
-exports.getAllDateoptionaltimetypes = async (req, res) => {
+var DateoptionaltimetypesController = {};
+
+DateoptionaltimetypesController.getAllDateoptionaltimetypes = async (
+  req,
+  res
+) => {
   try {
     const dateoptionaltimetypes = await Dateoptionaltimetype.find();
     return res.json(dateoptionaltimetypes);
@@ -17,7 +22,10 @@ exports.getAllDateoptionaltimetypes = async (req, res) => {
   }
 };
 
-exports.getDateoptionaltimetypeById = async (req, res) => {
+DateoptionaltimetypesController.getDateoptionaltimetypeById = async (
+  req,
+  res
+) => {
   try {
     const dateoptionaltimetype = await Dateoptionaltimetype.findById(
       req.params.id
@@ -34,7 +42,7 @@ exports.getDateoptionaltimetypeById = async (req, res) => {
   }
 };
 
-exports.postDateoptionaltimetype = async (req, res) => {
+DateoptionaltimetypesController.postDateoptionaltimetype = async (req, res) => {
   try {
     const savedDateoptionaltimetype = await createDateoptionaltimetype(
       req.body.date,
@@ -46,7 +54,10 @@ exports.postDateoptionaltimetype = async (req, res) => {
   }
 };
 
-exports.deleteDateoptionaltimetypeById = async (req, res) => {
+DateoptionaltimetypesController.deleteDateoptionaltimetypeById = async (
+  req,
+  res
+) => {
   try {
     const removedDateoptionaltimetype = await Dateoptionaltimetype.deleteOne({
       _id: req.params.id,
@@ -57,7 +68,7 @@ exports.deleteDateoptionaltimetypeById = async (req, res) => {
   }
 };
 
-exports.putDateoptionaltimetype = async (req, res) => {
+DateoptionaltimetypesController.putDateoptionaltimetype = async (req, res) => {
   try {
     const updatedDateoptionaltimetype = await updateDateoptionaltimetype(
       req.params.id,
@@ -70,3 +81,5 @@ exports.putDateoptionaltimetype = async (req, res) => {
     return res.status(400).json({ message: ex.message });
   }
 };
+
+module.exports = DateoptionaltimetypesController;

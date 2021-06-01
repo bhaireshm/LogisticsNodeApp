@@ -16,7 +16,9 @@ const Amounttype = require("../models/Amounttype");
 const { getRandomNumber } = require("../helpers/helper");
 const { sendError } = require("../helpers/response");
 
-exports.getAllBookings = async (req, res) => {
+var TransportcapacitybookingController = {};
+
+TransportcapacitybookingController.getAllBookings = async (req, res) => {
   try {
     await Transportcapacitybooking.find()
       .populate(
@@ -40,7 +42,7 @@ exports.getAllBookings = async (req, res) => {
   }
 };
 
-exports.search = async (req, res) => {
+TransportcapacitybookingController.search = async (req, res) => {
   // console.log(req.params.id);
   try {
     const startDate =
@@ -139,7 +141,7 @@ exports.search = async (req, res) => {
   }
 };
 
-exports.getBookingById = async (req, res) => {
+TransportcapacitybookingController.getBookingById = async (req, res) => {
   try {
     let transportcapacitybookings;
     transportcapacitybookings = await Transportcapacitybooking.findOne({
@@ -251,7 +253,7 @@ exports.getBookingById = async (req, res) => {
   }
 };
 
-exports.postBooking = async (req, res) => {
+TransportcapacitybookingController.postBooking = async (req, res) => {
   const session = await Transportcapacitybooking.startSession();
   session.startTransaction();
 
@@ -403,7 +405,7 @@ exports.postBooking = async (req, res) => {
   }
 };
 
-exports.deleteBooking = async (req, res) => {
+TransportcapacitybookingController.deleteBooking = async (req, res) => {
   const session = await Transportcapacitybooking.startSession();
   session.startTransaction();
   const id = req.params.id;
@@ -516,7 +518,7 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 
-exports.updateBooking = async (req, res) => {
+TransportcapacitybookingController.updateBooking = async (req, res) => {
   const session = await Transportcapacitybooking.startSession();
   session.startTransaction();
 
@@ -1073,3 +1075,5 @@ const deleteResponseFormat = (data) => {
   }
   return data;
 };
+
+module.exports = TransportcapacitybookingController;
