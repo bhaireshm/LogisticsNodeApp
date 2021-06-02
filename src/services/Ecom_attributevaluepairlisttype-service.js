@@ -1,8 +1,9 @@
 const { serviceResponse } = require("../helpers/response");
 const Ecomstringattributevaluepairlist = require("../models/Ecomstringattributevaluepairlist");
 const Ecom_attributevaluepairlisttype = require("../models/Ecom_attributevaluepairlisttype");
+var Ecom_attributevaluepairlisttypeService = {};
 
-exports.createEcom_attributevaluepairlisttype = async (data) => {
+Ecom_attributevaluepairlisttypeService.createEcom_attributevaluepairlisttype = async (data) => {
   try {
     // eslint-disable-next-line no-prototype-builtins
     if (!data.hasOwnProperty("eComStringAttributeValuePairListId")) {
@@ -41,7 +42,7 @@ exports.createEcom_attributevaluepairlisttype = async (data) => {
   }
 };
 
-exports.updateEcom_attributevaluepairlisttype = async (data) => {
+Ecom_attributevaluepairlisttypeService.updateEcom_attributevaluepairlisttype = async (data) => {
   try {
     const ecomstringattributevaluepairlist =
       await Ecomstringattributevaluepairlist.findById(
@@ -64,3 +65,5 @@ exports.updateEcom_attributevaluepairlisttype = async (data) => {
     return serviceResponse(ex.message);
   }
 };
+
+module.exports = Ecom_attributevaluepairlisttypeService;

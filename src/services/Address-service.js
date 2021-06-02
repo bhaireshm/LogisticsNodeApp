@@ -1,7 +1,8 @@
 const { serviceResponse } = require("../helpers/response");
 const Address = require("../models/Address");
+var AddressService = {};
 
-exports.createAddress = async (address) => {
+AddressService.createAddress = async (address) => {
   try {
     const addressResponse = new Address({
       city: address.city,
@@ -23,7 +24,7 @@ exports.createAddress = async (address) => {
   }
 };
 
-exports.updateAddress = async (address) => {
+AddressService.updateAddress = async (address) => {
   try {
     return await Address.updateOne(
       { _id: address.id },
@@ -48,3 +49,5 @@ exports.updateAddress = async (address) => {
     return serviceResponse(ex.message);
   }
 };
+
+module.exports = AddressService;

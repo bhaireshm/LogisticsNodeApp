@@ -1,6 +1,6 @@
 const { APIErrorResponse, APISuccessResponse } = require("../helpers/response");
 const Address = require("../models/Address");
-const { createAddress, updateAddress } = require("../services/Address-service");
+const AddressService = require("../services/Address-service");
 
 var AddressController = {};
 
@@ -39,7 +39,7 @@ AddressController.getAddressById = async (req, res) => {
 
 AddressController.postAddress = async (req, res) => {
   try {
-    const savedAddress = await createAddress(req.body);
+    const savedAddress = await AddressService.createAddress(req.body);
     return res
       .status(200)
       .json(APISuccessResponse(savedAddress), "Address Saved successfully.");
@@ -61,7 +61,7 @@ AddressController.deleteAddressById = async (req, res) => {
 
 AddressController.putAddressById = async (req, res) => {
   try {
-    const updatedAddress = await updateAddress({
+    const updatedAddress = await AddressService.updateAddress({
       ...req.body,
       id: req.params.id,
     });

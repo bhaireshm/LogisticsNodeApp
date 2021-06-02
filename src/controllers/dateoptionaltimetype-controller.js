@@ -3,10 +3,7 @@ const {
   updateResponseFormat,
 } = require("../helpers/response");
 const Dateoptionaltimetype = require("../models/Dateoptionaltimetype");
-const {
-  createDateoptionaltimetype,
-  updateDateoptionaltimetype,
-} = require("../services/Dateoptionaltimetype-service");
+const DateoptionaltimetypeService = require("../services/Dateoptionaltimetype-service");
 
 var DateoptionaltimetypesController = {};
 
@@ -44,10 +41,11 @@ DateoptionaltimetypesController.getDateoptionaltimetypeById = async (
 
 DateoptionaltimetypesController.postDateoptionaltimetype = async (req, res) => {
   try {
-    const savedDateoptionaltimetype = await createDateoptionaltimetype(
-      req.body.date,
-      req.body.time
-    );
+    const savedDateoptionaltimetype =
+      await DateoptionaltimetypeService.createDateoptionaltimetype(
+        req.body.date,
+        req.body.time
+      );
     return res.status(200).json(savedDateoptionaltimetype);
   } catch (ex) {
     return res.status(400).json({ message: ex.message });
@@ -70,11 +68,12 @@ DateoptionaltimetypesController.deleteDateoptionaltimetypeById = async (
 
 DateoptionaltimetypesController.putDateoptionaltimetype = async (req, res) => {
   try {
-    const updatedDateoptionaltimetype = await updateDateoptionaltimetype(
-      req.params.id,
-      req.body.date,
-      req.body.time
-    );
+    const updatedDateoptionaltimetype =
+      await DateoptionaltimetypeService.updateDateoptionaltimetype(
+        req.params.id,
+        req.body.date,
+        req.body.time
+      );
     return res.json(updateResponseFormat(updatedDateoptionaltimetype));
     // return res.json(updatedDateoptionaltimetype);
   } catch (ex) {

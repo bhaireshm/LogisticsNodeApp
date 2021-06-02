@@ -1,7 +1,8 @@
 const { serviceResponse } = require("../helpers/response");
 const Dateoptionaltimetype = require("../models/Dateoptionaltimetype");
+var DateoptionaltimetypeService = {};
 
-exports.createDateoptionaltimetype = async (date, time) => {
+DateoptionaltimetypeService.createDateoptionaltimetype = async (date, time) => {
   try {
     if (!date)
       return serviceResponse("Dateoptionaltimetype Date cannot be empty.");
@@ -18,7 +19,11 @@ exports.createDateoptionaltimetype = async (date, time) => {
   }
 };
 
-exports.updateDateoptionaltimetype = async (id, date, time) => {
+DateoptionaltimetypeService.updateDateoptionaltimetype = async (
+  id,
+  date,
+  time
+) => {
   try {
     if (!id) return serviceResponse("Dateoptionaltimetype ID cannot be empty.");
     if (!date)
@@ -47,3 +52,5 @@ exports.updateDateoptionaltimetype = async (id, date, time) => {
     return serviceResponse(ex.message);
   }
 };
+
+module.exports = DateoptionaltimetypeService;

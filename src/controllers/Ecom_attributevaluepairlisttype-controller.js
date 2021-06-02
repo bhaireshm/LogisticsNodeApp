@@ -4,10 +4,7 @@ const {
   deleteResponseFormat,
 } = require("../helpers/response");
 const Ecom_attributevaluepairlisttype = require("../models/Ecom_attributevaluepairlisttype");
-const {
-  createEcom_attributevaluepairlisttype,
-  updateEcom_attributevaluepairlisttype,
-} = require("../services/Ecom_attributevaluepairlisttype-service");
+const Ecom_attributevaluepairlisttypeService = require("../services/Ecom_attributevaluepairlisttype-service");
 
 var Ecom_attributevaluepairlisttypeController = {};
 
@@ -44,7 +41,9 @@ Ecom_attributevaluepairlisttypeController.getEcom_attributevaluepairlisttypeById
 Ecom_attributevaluepairlisttypeController.postEcom_attributevaluepairlisttype =
   async (req, res) => {
     try {
-      await createEcom_attributevaluepairlisttype(req.body)
+      await Ecom_attributevaluepairlisttypeService.createEcom_attributevaluepairlisttype(
+        req.body
+      )
         .then((savedEcom_attributevaluepairlisttype) => {
           if (!savedEcom_attributevaluepairlisttype.status) {
             res
@@ -84,10 +83,12 @@ Ecom_attributevaluepairlisttypeController.putEcom_attributevaluepairlisttype =
   async (req, res) => {
     try {
       // const updatedEcom_attributevaluepairlisttype =
-      await updateEcom_attributevaluepairlisttype({
-        ...req.body,
-        id: req.params.id,
-      })
+      await Ecom_attributevaluepairlisttypeService.updateEcom_attributevaluepairlisttype(
+        {
+          ...req.body,
+          id: req.params.id,
+        }
+      )
         .then((updatedEcom_attributevaluepairlisttype) => {
           if (!updatedEcom_attributevaluepairlisttype.status) {
             res
