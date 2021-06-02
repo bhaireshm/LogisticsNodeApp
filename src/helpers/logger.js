@@ -11,6 +11,7 @@ exports.debug = (content) => {
   console.log(chalk.yellow(alignContent("DEBUG")), content);
 };
 
+// eslint-disable-next-line no-unused-vars
 exports.logger = (content, color = "yellow") => {
-  console.log(chalk[color](alignContent("LOG")), content);
+  console.log(chalk.yellow(alignContent("LOG")), content);
 };

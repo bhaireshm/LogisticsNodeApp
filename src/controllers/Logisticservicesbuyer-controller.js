@@ -1,5 +1,5 @@
+const customResponse = require("../helpers/response");
 const Logisticservicesbuyer = require("../models/Logisticservicesbuyer");
-
 var LogisticservicesbuyerController = {};
 
 LogisticservicesbuyerController.getAllLogisticservicesbuyer = async (
@@ -8,9 +8,9 @@ LogisticservicesbuyerController.getAllLogisticservicesbuyer = async (
 ) => {
   try {
     const Logisticservicesbuyers = await Logisticservicesbuyer.find();
-    res.json(Logisticservicesbuyers);
+    res.json(customResponse.APISuccessResponse(Logisticservicesbuyers));
   } catch (ex) {
-    res.status(400).json({ message: ex.message });
+    res.status(400).json(customResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -22,13 +22,15 @@ LogisticservicesbuyerController.getLogisticservicesbuyerById = async (
     const logisticservicesbuyer = await Logisticservicesbuyer.findById(
       req.params.id
     );
-    res.json({
-      _id: logisticservicesbuyer._id,
-      gln: logisticservicesbuyer.gln,
-      createdAt: logisticservicesbuyer.createdAt,
-    });
+    res.json(
+      customResponse.APISuccessResponse({
+        _id: logisticservicesbuyer._id,
+        gln: logisticservicesbuyer.gln,
+        createdAt: logisticservicesbuyer.createdAt,
+      })
+    );
   } catch (ex) {
-    res.status(400).json({ message: ex.message });
+    res.status(400).json(customResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -41,9 +43,16 @@ LogisticservicesbuyerController.postLogisticservicesbuyer = async (
       gln: req.body.gln,
     });
     const savedLogisticservicesbuyer = await logisticservicesbuyer.save();
-    res.status(200).json(savedLogisticservicesbuyer);
+    res
+      .status(200)
+      .json(
+        customResponse.APISuccessResponse(
+          savedLogisticservicesbuyer,
+          "Logistic services buyer saved succesfully."
+        )
+      );
   } catch (ex) {
-    res.status(400).json({ message: ex.message });
+    res.status(400).json(customResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -55,9 +64,18 @@ LogisticservicesbuyerController.deleteLogisticservicesbuyerById = async (
     const removedLogisticservicesbuyer = await Logisticservicesbuyer.remove({
       _id: req.params.id,
     });
-    res.json(removedLogisticservicesbuyer);
+    const formattedResponse = customResponse.deleteResponseFormat(
+      removedLogisticservicesbuyer
+    );
+    res.json(
+      customResponse.APISuccessResponse(
+        null,
+        "Logistic services buyer " + formattedResponse.message,
+        formattedResponse.status
+      )
+    );
   } catch (ex) {
-    res.status(400).json({ message: ex.message });
+    res.status(400).json(customResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -74,9 +92,19 @@ LogisticservicesbuyerController.updateLogisticservicesbuyerById = async (
         },
       }
     );
-    res.json(updatedLogisticservicesbuyer);
+
+    const formattedResponse = customResponse.updateResponseFormat(
+      updatedLogisticservicesbuyer
+    );
+    res.json(
+      customResponse.APISuccessResponse(
+        null,
+        "Logistic services buyer " + formattedResponse.message,
+        formattedResponse.status
+      )
+    );
   } catch (ex) {
-    res.status(400).json({ message: ex.message });
+    res.status(400).json(customResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
