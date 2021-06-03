@@ -1,66 +1,65 @@
 const mongoose = require("mongoose");
 
 const EnumerationlibraryScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   semanticResourceURN: {
     type: String,
-    required: false
+    required: false,
   },
   CodeValue: {
     type: String,
-    required: false
+    required: false,
   },
   resourceSubTypeCode: {
     type: String,
-    required: false
+    required: false,
   },
   CodeList: {
     type: String,
-    required: false
+    required: false,
   },
   Domain: {
     type: String,
-    required: false
+    required: false,
   },
   ExternalLink: {
     type: String,
-    required: false
+    required: false,
   },
   codeName: {
     type: String,
-    required: false
+    required: false,
   },
   Definition: {
     type: String,
-    required: false
+    required: false,
   },
   changeLog: {
     type: String,
-    required: false
+    required: false,
   },
   Status: {
     type: String,
-    required: false
+    required: false,
   },
   Version: {
     type: String,
-    required: false
+    required: false,
   },
   ChangeDate: {
     type: String,
-    required: false
+    required: false,
   },
   changeLogComment: {
     type: String,
-    required: false
+    required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Enumerationlibrarys", EnumerationlibraryScheema);
+module.exports = mongoose.model(
+  "Enumerationlibrarys",
+  EnumerationlibraryScheema
+);

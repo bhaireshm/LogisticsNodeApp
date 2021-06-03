@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-keys */
 const mongoose = require("mongoose");
 
 const TransactionalpartytypeScheema = mongoose.Schema({
@@ -25,98 +24,34 @@ const TransactionalpartytypeScheema = mongoose.Schema({
     type: Number,
     required: false,
   },
-  financialInstitutionInformation: {
-    type: Number,
-    required: false,
-  },
   additionalPartyIdentification: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Additionalpartyidentificationtypes",
     required: true,
   },
   dutyFeeTaxRegistration: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Dutyfeetaxregistrationtypes",
     required: true,
   },
   financialInstitutionInformation: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Financialinstitutioninformationtypes",
     required: true,
   },
   organisationDetails: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Organisationdetailss",
     required: true,
   },
   address: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Addresss",
     required: true,
   },
   contact: {
-    type: [
-      {
-        Id: {
-          type: String,
-          required: true,
-        },
-        Name: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    type: mongoose.Types.ObjectId,
+    ref: "Contacttypes",
     required: true,
   },
   createdAt: {

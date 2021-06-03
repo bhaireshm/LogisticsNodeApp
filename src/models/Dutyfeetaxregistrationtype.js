@@ -1,69 +1,32 @@
 const mongoose = require("mongoose");
 
 const DutyfeetaxregistrationtypeScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   dutyFeeTaxRegistrationID: {
-    type: Number,
-    required: false
+    type: mongoose.Types.ObjectId,
+    ref: "Identifiertypes",
+    required: true,
   },
   dutyFeeTaxTypeCode: {
-    type: Number,
-    required: false
+    type: mongoose.Types.ObjectId,
+    ref: "Dutyfeetaxtypecodes",
+    required: true,
   },
   dutyFeeTaxAgencyName: {
     type: String,
-    required: false
+    required: false,
   },
   dutyFeeTaxDescription: {
-    type: Number,
-    required: false
+    type: mongoose.Types.ObjectId,
+    ref: "Description80types",
+    required: true,
   },
-  dutyFeeTaxDescription: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
-  },
-  dutyFeeTaxRegistrationID: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
-  },
-  dutyFeeTaxTypeCode: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
-  },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Dutyfeetaxregistrationtypes", DutyfeetaxregistrationtypeScheema);
+module.exports = mongoose.model(
+  "Dutyfeetaxregistrationtypes",
+  DutyfeetaxregistrationtypeScheema
+);

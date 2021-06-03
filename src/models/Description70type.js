@@ -1,22 +1,18 @@
 const mongoose = require("mongoose");
 
 const Description70typeScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   languageCode: {
     type: String,
-    required: false
+    required: false,
   },
   codeListVersion: {
     type: String,
-    required: false
+    required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Description70types", Description70typeScheema);

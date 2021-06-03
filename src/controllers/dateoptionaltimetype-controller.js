@@ -1,3 +1,4 @@
+const CustomResponse = require("../helpers/response");
 const {
   deleteResponseFormat,
   updateResponseFormat,
@@ -13,9 +14,9 @@ DateoptionaltimetypesController.getAllDateoptionaltimetypes = async (
 ) => {
   try {
     const dateoptionaltimetypes = await Dateoptionaltimetype.find();
-    return res.json(dateoptionaltimetypes);
+    return res.json(CustomResponse.APISuccessResponse(dateoptionaltimetypes));
   } catch (ex) {
-    return res.status(400).json({ message: ex.message });
+    res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -27,15 +28,17 @@ DateoptionaltimetypesController.getDateoptionaltimetypeById = async (
     const dateoptionaltimetype = await Dateoptionaltimetype.findById(
       req.params.id
     );
-    return res.json({
-      _id: dateoptionaltimetype._id,
-      id: dateoptionaltimetype.id,
-      date: dateoptionaltimetype.date,
-      time: dateoptionaltimetype.time,
-      createdAt: dateoptionaltimetype.createdAt,
-    });
+    return res.json(
+      CustomResponse.APISuccessResponse({
+        _id: dateoptionaltimetype._id,
+        id: dateoptionaltimetype.id,
+        date: dateoptionaltimetype.date,
+        time: dateoptionaltimetype.time,
+        createdAt: dateoptionaltimetype.createdAt,
+      })
+    );
   } catch (ex) {
-    return res.status(400).json({ message: ex.message });
+    res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -46,9 +49,11 @@ DateoptionaltimetypesController.postDateoptionaltimetype = async (req, res) => {
         req.body.date,
         req.body.time
       );
-    return res.status(200).json(savedDateoptionaltimetype);
+    return res
+      .status(200)
+      .json(CustomResponse.APISuccessResponse(savedDateoptionaltimetype));
   } catch (ex) {
-    return res.status(400).json({ message: ex.message });
+    res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -60,9 +65,16 @@ DateoptionaltimetypesController.deleteDateoptionaltimetypeById = async (
     const removedDateoptionaltimetype = await Dateoptionaltimetype.deleteOne({
       _id: req.params.id,
     });
-    return res.json(deleteResponseFormat(removedDateoptionaltimetype));
+    const formattedResponse = deleteResponseFormat(removedDateoptionaltimetype);
+    return res.json(
+      CustomResponse.APISuccessResponse(
+        null,
+        formattedResponse.message,
+        formattedResponse.status
+      )
+    );
   } catch (ex) {
-    return res.status(400).json({ message: ex.message });
+    res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
   }
 };
 
@@ -74,10 +86,16 @@ DateoptionaltimetypesController.putDateoptionaltimetype = async (req, res) => {
         req.body.date,
         req.body.time
       );
-    return res.json(updateResponseFormat(updatedDateoptionaltimetype));
-    // return res.json(updatedDateoptionaltimetype);
+    const formattedResponse = updateResponseFormat(updatedDateoptionaltimetype);
+    return res.json(
+      CustomResponse.APISuccessResponse(
+        null,
+        formattedResponse.message,
+        formattedResponse.status
+      )
+    );
   } catch (ex) {
-    return res.status(400).json({ message: ex.message });
+    res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
   }
 };
 

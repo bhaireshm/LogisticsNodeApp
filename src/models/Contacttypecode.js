@@ -1,14 +1,18 @@
 const mongoose = require("mongoose");
 
 const ContacttypecodeScheema = mongoose.Schema({
+  contactTypeCode: {
+    type: String,
+    required: false,
+  },
   codeListVersion: {
     type: String,
-    required: false
+    required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Contacttypecodes", ContacttypecodeScheema);
