@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const ContacttypeScheema = mongoose.Schema({
-  contactTypeCode: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Contacttypecodes",
-    required: true,
-  },
   personName: {
     type: String,
     required: false,
@@ -18,20 +13,43 @@ const ContacttypeScheema = mongoose.Schema({
     type: String,
     required: false,
   },
+  communicationValue: {
+    type: String,
+    required: false,
+  },
+  communicationChannelName: {
+    type: String,
+    required: false,
+  },
+  communicationChannelCode: {
+    Id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    Name: {
+      type: String,
+      required: true,
+    },
+  },
   responsibility: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Responsibilitys",
-    required: true,
+    Id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    Name: {
+      type: String,
+      required: true,
+    },
   },
-  communicationChannel: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Communicationchannelcodes",
-    required: true,
-  },
-  afterHoursCommunicationChannel: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Communicationchannelcodes",
-    required: true,
+  contactTypeCode: {
+    Id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    Name: {
+      type: String,
+      required: true,
+    },
   },
   createdAt: {
     type: Date,
