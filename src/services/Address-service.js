@@ -20,7 +20,7 @@ AddressService.createAddress = async (address) => {
     });
     return await addressResponse.save();
   } catch (ex) {
-    return serviceResponse(ex.message);
+    return serviceResponse(ex.message, false);
   }
 };
 
@@ -46,7 +46,7 @@ AddressService.updateAddress = async (address) => {
       }
     );
   } catch (ex) {
-    return serviceResponse(ex.message);
+    return serviceResponse(ex.message, false);
   }
 };
 

@@ -6,7 +6,7 @@ const CustomResponse = {
       logger("deleteResponseFormat " + data);
       let status = false,
         msg = "delete failed.";
-      if (data.deletedCount > 0 && data.n > 0 && data.ok > 0) {
+      if (data.deletedCount > 0 && data.n > 0) {
         status = true;
         msg = "delete successful.";
       }
@@ -25,11 +25,11 @@ const CustomResponse = {
       logger("updateResponseFormat " + data);
       let status = false,
         msg = "update failed / Invalid ID.";
-      if (data.nModified > 0 && data.n > 0 && data.ok > 0) {
+      if (data.nModified > 0 && data.n > 0) {
         status = true;
         msg = "update successful.";
       }
-      if (data.nModified == 0 && data.n == 0) {
+      if (data.nModified == 0 && data.n > 0) {
         msg = "nothing to update.";
       }
       for (const l in data) if (l != "message") delete data[l];
