@@ -1,3 +1,4 @@
+const CustomResponse = require("../helpers/response");
 const Ecomstringattributevaluepairlist = require("../models/Ecomstringattributevaluepairlist");
 var EcomstringattributevaluepairlistController = {};
 
@@ -8,7 +9,7 @@ EcomstringattributevaluepairlistController.getAllEcomstringattributevaluepairlis
         await Ecomstringattributevaluepairlist.find();
       res.json(ecomstringattributevaluepairlists);
     } catch (ex) {
-      res.status(400).json({ message: ex.message });
+      res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
     }
   };
 
@@ -27,7 +28,7 @@ EcomstringattributevaluepairlistController.getEcomstringattributevaluepairlistBy
         createdAt: ecomstringattributevaluepairlist.createdAt,
       });
     } catch (ex) {
-      res.status(400).json({ message: ex.message });
+      res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
     }
   };
 
@@ -45,7 +46,7 @@ EcomstringattributevaluepairlistController.postEcomstringattributevaluepairlist 
         await ecomstringattributevaluepairlist.save();
       res.status(200).json(savedEcomstringattributevaluepairlist);
     } catch (ex) {
-      res.status(400).json({ message: ex.message });
+      res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
     }
   };
 
@@ -56,7 +57,7 @@ EcomstringattributevaluepairlistController.deleteEcomstringattributevaluepairlis
         await Ecomstringattributevaluepairlist.remove({ _id: req.params.id });
       res.json(removedEcomstringattributevaluepairlist);
     } catch (ex) {
-      res.status(400).json({ message: ex.message });
+      res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
     }
   };
 
@@ -77,7 +78,7 @@ EcomstringattributevaluepairlistController.putEcomstringattributevaluepairlistBy
         );
       res.json(updatedEcomstringattributevaluepairlist);
     } catch (ex) {
-      res.status(400).json({ message: ex.message });
+      res.status(400).json(CustomResponse.APIErrorResponse(ex, ex.message));
     }
   };
 
