@@ -27,18 +27,12 @@ TransactionalpartytypeService.create = async (body) => {
   const contacts = await Contacttype.findById(body.contactId);
   const transactionalpartytype = new Transactionalpartytype({
     gln: body.gln,
-    additionalPartyIdentification: body.additionalPartyIdentification,
-    address: body.address,
-    contact: body.contact,
-    dutyFeeTaxRegistration: body.dutyFeeTaxRegistration,
-    organisationDetails: body.organisationDetails,
-    financialInstitutionInformation: body.financialInstitutionInformation,
+    contact: contacts._id, // code reverted ui changes required.
+    address: addresss._id,
     additionalPartyIdentification: additionalpartyidentifications._id,
     dutyFeeTaxRegistration: dutyfeetaxregistrations._id,
     financialInstitutionInformation: financialinstitutioninformations._id,
     organisationDetails: organisationdetailss._id,
-    address: addresss._id,
-    contact: contacts._id,
   });
   return await transactionalpartytype.save();
 };

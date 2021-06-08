@@ -1,35 +1,19 @@
 const mongoose = require("mongoose");
 
 const OrganisationtypeScheema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   organisationName: {
     type: String,
-    required: false
+    required: false,
   },
   issuedCapital: {
-    type: Number,
-    required: false
+    type: mongoose.Types.ObjectId,
+    ref: "Issuedcapitals",
+    required: false,
   },
-  issuedCapital: {
-    type: [{
-      Id: {
-         type: String,
-         required: true
-         },
-      Name:{
-         type: String,
-         required: true
-         },
-    }],
-    required:true
-  },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Organisationtypes", OrganisationtypeScheema);
