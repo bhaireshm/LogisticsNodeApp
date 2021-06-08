@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 
 const HandlinginstructioncodeScheema = mongoose.Schema({
+  handlingInstructionCode: {
+    type: String,
+    required: true,
+  },
   codeListVersion: {
     type: String,
-    required: false
+    required: false,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Handlinginstructioncodes", HandlinginstructioncodeScheema);
+module.exports = mongoose.model(
+  "Handlinginstructioncodes",
+  HandlinginstructioncodeScheema
+);

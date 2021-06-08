@@ -3,7 +3,7 @@ const { logger } = require("./logger");
 const CustomResponse = {
   deleteResponseFormat(data) {
     if (data && typeof data === "object") {
-      logger("deleteResponseFormat " + data);
+      logger("deleteResponseFormat " + JSON.stringify(data));
       let status = false,
         msg = "delete failed.";
       if (data.deletedCount > 0 && data.n > 0) {
@@ -22,7 +22,7 @@ const CustomResponse = {
 
   updateResponseFormat(data) {
     if (data && typeof data === "object") {
-      logger("updateResponseFormat " + data);
+      logger("updateResponseFormat " + JSON.stringify(data));
       let status = false,
         msg = "update failed / Invalid ID.";
       if (data.nModified > 0 && data.n > 0) {
